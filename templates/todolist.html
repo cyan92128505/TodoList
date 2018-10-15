@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="todoApp">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/" />
+    <title>Todo List</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/lib/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/main.css" />
+</head>
+
+<body>
+    <div class="container" ng-controller="todoCtrl">
+        <div class="page-header">
+            <h2 class="text-center">代辦事項列表</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="checkbox">
+                    <label class="checkbox-inline" ng-repeat="s in statusList">
+                        <input type="checkbox" ng-model="s.isChecked" ng-click="selectStatus()"> <span ng-bind="s.name"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <ul class="list-group">
+                    <li ng-repeat="l in list" class="list-group-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <span class="label" ng-class="{'label-default':l.status.id==1,'label-info':l.status.id==2,'label-success':l.status.id==3}"
+                                    ng-bind="l.status.name"></span>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading" ng-bind="l.name"></h4>
+                                <span ng-bind="l.description"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item" ng-if="list.length===0">
+                        <div class="media">
+                            <div class="media-body">
+                                <span>無資料</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/lib/angular.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>
