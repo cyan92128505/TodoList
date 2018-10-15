@@ -31,5 +31,3 @@ POST /api/todo/list
         id: 6, status: 1, name: '事項六', description: '處理事項六'
     }]
 ```
-
-![DEMO](demo.png)
