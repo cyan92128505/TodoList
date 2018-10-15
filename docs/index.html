@@ -1,0 +1,30 @@
+<h2>問題：</h2>
+
+<h3>渲染頁面 /todolist?status=1,3，透過 API /api/todo/status, /api/todo/list</h3>
+
+<p>GET /api/todo/status</p>
+
+<pre><code>    Response: [{
+        id: 1, name: '未完成'
+    },{
+        id: 2, name: '進行中'
+    },{
+        id: 3, name: '已完成'
+    }]
+</code></pre>
+
+<p>POST /api/todo/list</p>
+
+<pre><code>    Request: [{ 1, 3 }]
+    Response: [{
+        id: 1, status: 1, name: '事項一', description: '處理事項一'
+    },{
+        id: 4, status: 3, name: '事項四', description: '處理事項四'
+    },{
+        id: 5, status: 1, name: '事項五', description: '處理事項五'
+    },{
+        id: 6, status: 1, name: '事項六', description: '處理事項六'
+    }]
+</code></pre>
+
+<p><img src="demo.png" alt="DEMO" /></p>
