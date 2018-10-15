@@ -17,12 +17,9 @@ GET /api/todo/status
 POST /api/todo/list
 
 ```
+    Request: [{ 1, 3 }]
     Response: [{
         id: 1, status: 1, name: '事項一', description: '處理事項一'
-    },{
-        id: 2, status: 2, name: '事項二', description: '處理事項二'
-    },{
-        id: 3, status: 2, name: '事項三', description: '處理事項三'
     },{
         id: 4, status: 3, name: '事項四', description: '處理事項四'
     },{
