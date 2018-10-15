@@ -1,33 +1,174 @@
-<link rel="stylesheet" type="text/css" media="screen" href="github-markdown.css" />
-<div class="markdown-body">
-    <h2>問題：</h2>
+<!DOCTYPE html>
+<html ng-app="todoApp">
 
-    <h3>渲染頁面 /todolist?status=1,3，透過 API /api/todo/status, /api/todo/list</h3>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/" />
+    <title>Todo List</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style>
+        body {
+            font-family: 'Microsoft JhengHei', Arial, Helvetica, sans-serif
+        }
+    </style>
+</head>
 
-    <p>GET /api/todo/status</p>
+<body>
+    <div class="container" ng-controller="todoCtrl">
+        <div class="page-header">
+            <h2 class="text-center">代辦事項列表</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="checkbox">
+                    <label class="checkbox-inline" ng-repeat="s in statusList">
+                        <input type="checkbox" ng-model="s.isChecked" ng-change="selectStatus()"> <span ng-bind="s.name"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <ul class="list-group">
+                    <li ng-repeat="l in list" class="list-group-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <span class="label" ng-class="{'label-default':l.statusInfo.id==1,'label-info':l.statusInfo.id==2,'label-success':l.statusInfo.id==3}"
+                                    ng-bind="l.statusInfo.name"></span>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading" ng-bind="l.name"></h4>
+                                <span ng-bind="l.description"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item" ng-if="list.length===0">
+                        <div class="media">
+                            <div class="media-body">
+                                <span>無資料</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.min.js"></script>
+    <script>
+        var todoList = [{
+                "id": 1,
+                "status": 1,
+                "name": "事項一",
+                "description": "處理事項一"
+            },
+            {
+                "id": 2,
+                "status": 2,
+                "name": "事項二",
+                "description": "處理事項二"
+            },
+            {
+                "id": 3,
+                "status": 2,
+                "name": "事項三",
+                "description": "處理事項三"
+            },
+            {
+                "id": 4,
+                "status": 3,
+                "name": "事項四",
+                "description": "處理事項四"
+            },
+            {
+                "id": 5,
+                "status": 1,
+                "name": "事項五",
+                "description": "處理事項五"
+            },
+            {
+                "id": 6,
+                "status": 1,
+                "name": "事項六",
+                "description": "處理事項六"
+            }
+        ];
+        angular.module('todoApp', [])
+            .config([
+                '$locationProvider',
+                $locationProvider => $locationProvider.html5Mode(true).hashPrefix('')
+            ])
+            .controller('todoCtrl', [
+                '$q',
+                '$http',
+                '$scope',
+                '$timeout',
+                '$location',
+                (
+                    $q,
+                    $http,
+                    $scope,
+                    $timeout,
+                    $location
+                ) => {
 
-    <pre><code>    Response: [{
-            id: 1, name: '未完成'
-        },{
-            id: 2, name: '進行中'
-        },{
-            id: 3, name: '已完成'
-        }]
-    </code></pre>
+                    // const queryString = parseQuery(window.location.search);
+                    const queryString = $location.search();
 
-    <p>POST /api/todo/list</p>
+                    $scope.queryStatusId = queryString.status ? queryString.status.split(',') : [];
+                    $scope.statusList = [];
+                    $scope.list = [];
+                    $scope.statusList = [{
+                            "id": 1,
+                            "name": "未完成"
+                        },
+                        {
+                            "id": 2,
+                            "name": "進行中"
+                        },
+                        {
+                            "id": 3,
+                            "name": "已完成"
+                        }
+                    ];
 
-    <pre><code>    Request: [{ 1, 3 }]
-        Response: [{
-            id: 1, status: 1, name: '事項一', description: '處理事項一'
-        },{
-            id: 4, status: 3, name: '事項四', description: '處理事項四'
-        },{
-            id: 5, status: 1, name: '事項五', description: '處理事項五'
-        },{
-            id: 6, status: 1, name: '事項六', description: '處理事項六'
-        }]
-    </code></pre>
+                    $scope.statusList.forEach(s => s.isChecked = filterStatus(s.id));
+                    $scope.setupList = () => {
+                        $scope.list = [].concat(todoList).map(term => {
+                                term.statusInfo = $scope.statusList.filter(s => s.id ===
+                                    term.status)[0];
+                                return term;
+                            })
+                            .filter(t => $scope.statusList
+                                .filter(s => s.isChecked)
+                                .map(s => s.id)
+                                .some(s => s === t.status)
+                            );
+                    }
 
-    <p><img src="demo.png" alt="DEMO" /></p>
-</div>
+                    $scope.setupList();
+
+                    $scope.selectStatus = () => {
+                        $location.search({
+                            status: $scope.statusList
+                                .filter(s => s.isChecked)
+                                .map(s => s.id)
+                                .join(',')
+                        });
+                        $scope.setupList();
+                    }
+
+
+                    function filterStatus(status) {
+                        return $scope.queryStatusId.length === 0 ?
+                            true :
+                            $scope.queryStatusId.some(q => status === +q);
+                    }
+
+                }
+            ]);
+    </script>
+</body>
+
+</html>
