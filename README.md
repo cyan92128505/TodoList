@@ -1,10 +1,12 @@
-## 題目：請使用自身熟悉的技術框架，透過以下 API 建立一套 Todo List 單頁應用 [DEMO](https://cyan92128505.github.io/TodoList/?status=1,3)
+## 題目：
 
-#### 頁面路由 /todolist?status=1,3，
+請使用自身熟悉的技術框架，透過以下 API 建立一套 Todo List 單頁應用 [DEMO](https://cyan92128505.github.io/TodoList/?status=1,3)
 
-#### API: 事項屬性 /api/todo/status
+## 條件:
 
-GET /api/todo/status
+#### 頁面路由可利用 URL 參數來調整搜尋結果 /todolist?status=1,3，
+
+#### 事項屬性 API: GET /api/todo/status
 
 ```
     Response: [{
@@ -16,9 +18,7 @@ GET /api/todo/status
     }]
 ```
 
-#### API: 事項列表 /api/todo/list
-
-POST /api/todo/list
+#### 事項列表 API: POST /api/todo/list
 
 ```
     Response: [{
@@ -35,5 +35,7 @@ POST /api/todo/list
         id: 6, status: 1, name: '事項六', description: '處理事項六'
     }]
 ```
+
+畫面截圖:
 
 ![DEMO](https://cyan92128505.github.io/TodoList/demo.png 'DEMO')
