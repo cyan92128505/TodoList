@@ -12,6 +12,32 @@
         body {
             font-family: 'Microsoft JhengHei', Arial, Helvetica, sans-serif
         }
+
+        .new-term {            
+            -webkit-animation-name: animation;
+            -webkit-animation-duration: 2s;
+            -webkit-animation-timing-function: ease-in-out;
+            -webkit-animation-iteration-count: 1;    
+            -webkit-animation-play-state: running;
+            
+            animation-name: animation;
+            animation-duration: 2s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: 1;    
+            animation-play-state: running;
+        }
+
+        @-webkit-keyframes animation {
+            0%     {color: #555;background-color:#fff;}
+            50.0%  {color: #8a6d3b;background-color: #fcf8e3;}
+            100.0%  {color: #555;background-color:#fff;}
+        }
+
+        @keyframes animation {
+            0%     {color: #555;background-color:#fff;}
+            50.0%  {color: #8a6d3b;background-color: #fcf8e3;}
+            100.0%  {color: #555;background-color:#fff;}
+        }
     </style>
 </head>
 
@@ -32,7 +58,32 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <ul class="list-group">
-                    <li ng-repeat="l in list" class="list-group-item">
+                    <li class="list-group-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <span class="label label-warning">新事項</span>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading form-inline">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="term.name" placeholder="事項標題">
+                                    </div>
+                                </h4>
+                                <div class="form-inline">
+                                    <span class="form-group">
+                                        <input type="text" class="form-control" ng-model="term.description" placeholder="事項內容">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <button type="button" class="close" aria-label="Close" ng-click="createTerm(term)"
+                                    title="新增">
+                                    <span aria-hidden="true">+</span>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    <li ng-repeat="l in list" class="list-group-item" ng-class="{'new-term':l.isNew}">
                         <div class="media">
                             <div class="media-left">
                                 <span class="label" ng-class="{'label-default':l.statusInfo.id==1,'label-info':l.statusInfo.id==2,'label-success':l.statusInfo.id==3}"
@@ -73,31 +124,6 @@
                         <div class="media">
                             <div class="media-body">
                                 <span>無資料</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="media">
-                            <div class="media-left">
-                                <span class="label label-warning">新事項</span>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading form-inline">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" ng-model="term.name" placeholder="事項標題">
-                                    </div>
-                                </h4>
-                                <div class="form-inline">
-                                    <span class="form-group">
-                                        <input type="text" class="form-control" ng-model="term.description" placeholder="事項內容">
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <button type="button" class="close" aria-label="Close" ng-click="createTerm(term)"
-                                    title="新增">
-                                    <span aria-hidden="true">+</span>
-                                </button>
                             </div>
                         </div>
                     </li>
@@ -223,9 +249,10 @@
                             id: lastest ? lastest.id + 1 : 1,
                             status: 1,
                             name: term.name,
-                            description: term.description
+                            description: term.description,
+                            isNew: true
                         }
-                        todoList.push(newTerm);
+                        todoList.unshift(newTerm);
                         term.name = null;
                         term.description = null;
                         $scope.setupList();
