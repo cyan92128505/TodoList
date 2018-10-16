@@ -25,7 +25,7 @@ type ListForm struct {
 	Status []int `json:"status"`
 }
 
-func getTodoList(status []int) (jsonList []TodoTerm) {
+func getTodoList(status []int) (jsonContent []TodoTerm) {
 	todolist := []TodoTerm{
 		TodoTerm{
 			ID:          1,
@@ -71,7 +71,7 @@ func getTodoList(status []int) (jsonList []TodoTerm) {
 		}
 	}
 
-	jsonList = ans
+	jsonContent = ans
 	return
 }
 
@@ -90,9 +90,9 @@ func list(w http.ResponseWriter, r *http.Request) {
 	body := make([]byte, len)
 	r.Body.Read(body)
 	json.Unmarshal(body, &formBody)
-	jsonList := getTodoList(formBody.Status)
+	jsonContent := getTodoList(formBody.Status)
 
-	output, err := json.MarshalIndent(&jsonList, "", "\t\t")
+	output, err := json.MarshalIndent(&jsonContent, "", "\t\t")
 	if err != nil {
 		return
 	}
@@ -104,7 +104,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 func status(w http.ResponseWriter, r *http.Request) {
 
-	jsonList := []Status{
+	jsonContent := []Status{
 		Status{
 			ID:   1,
 			Name: "未完成",
@@ -119,7 +119,7 @@ func status(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	output, err := json.MarshalIndent(&jsonList, "", "\t\t")
+	output, err := json.MarshalIndent(&jsonContent, "", "\t\t")
 	if err != nil {
 		return
 	}
@@ -131,8 +131,12 @@ func status(w http.ResponseWriter, r *http.Request) {
 
 func view(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("./templates/todolist.html")
-	daysOfWeek := []string{"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"}
-	t.Execute(w, daysOfWeek)
+	t.Execute(w, nil)
+}
+
+func demo(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("./docs/index.html")
+	t.Execute(w, nil)
 }
 
 func main() {
@@ -145,6 +149,7 @@ func main() {
 	mux.HandleFunc("/", view)
 
 	mux.HandleFunc("/todolist", view)
+	mux.HandleFunc("/demo", demo)
 
 	mux.HandleFunc("/api/todo/list", list)
 	mux.HandleFunc("/api/todo/status", status)
