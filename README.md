@@ -1,6 +1,10 @@
-## 問題：
+## 題目：
+
+### 嘗試利用以下 API 建立一套 Todo List
 
 ### 渲染頁面 /todolist?status=1,3，透過 API /api/todo/status, /api/todo/list
+
+[DEMO](https://cyan92128505.github.io/TodoList/?status=1,3)
 
 GET /api/todo/status
 
@@ -31,3 +35,5 @@ POST /api/todo/list
         id: 6, status: 1, name: '事項六', description: '處理事項六'
     }]
 ```
+
+![DEMO](https://cyan92128505.github.io/TodoList/demo.png 'DEMO')
