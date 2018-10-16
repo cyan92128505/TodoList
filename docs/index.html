@@ -40,8 +40,8 @@
                             </div>
                             <div class="media-body">
                                 <div ng-hide="l.isEditing" ng-dblclick="l.isEditing=!l.isEditing">
-                                    <h4 class="media-heading" ng-bind="l.name"></h4>
-                                    <span ng-bind="l.description"></span>
+                                    <h4 class="media-heading" ng-bind="l.name || '(無標題)'"></h4>
+                                    <span ng-bind="l.description || '(無內容)'"></span>
                                 </div>
                                 <div ng-show="l.isEditing">
                                     <h4 class="media-heading form-inline">
@@ -218,8 +218,9 @@
                         if (!term.name && !term.description) {
                             return;
                         }
+                        const lastest = [].concat(todoList).sort((a, b) => (b.id - a.id))[0];
                         const newTerm = {
-                            id: [].concat(todoList).sort((a, b) => (b.id - a.id))[0].id + 1,
+                            id: lastest ? lastest.id + 1 : 1,
                             status: 1,
                             name: term.name,
                             description: term.description
