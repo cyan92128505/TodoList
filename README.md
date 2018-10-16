@@ -1,8 +1,8 @@
 ## 題目：
 
-### 請使用自身熟悉的技術框架，透過以下 API 建立一套 Todo List 單頁應用
+### 請使用自身熟悉的技術框架，透過以下 API 建立一套 Todo List 單頁應用 [DEMO](https://cyan92128505.github.io/TodoList/?status=1,3)
 
-### 頁面路由 /todolist?status=1,3，
+#### 頁面路由 /todolist?status=1,3，
 
 #### API: 事項屬性 /api/todo/status
 
@@ -38,4 +38,4 @@ POST /api/todo/list
     }]
 ```
 
-[DEMO](https://cyan92128505.github.io/TodoList/?status=1,3) ![DEMO](https://cyan92128505.github.io/TodoList/demo.png 'DEMO')
+![DEMO](https://cyan92128505.github.io/TodoList/demo.png 'DEMO')
