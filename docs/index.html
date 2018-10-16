@@ -232,6 +232,7 @@
                                 .map(s => s.id)
                                 .join(',')
                         });
+                        todoList.forEach(t => t.isNew = false);
                         $scope.setupList();
                     }
 
