@@ -18,7 +18,7 @@
 <body>
     <div class="container" ng-controller="todoCtrl">
         <div class="page-header">
-            <h2 class="text-center">代辦事項列表</h2>
+            <h2 class="text-center">待辦事項列表</h2>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -36,11 +36,36 @@
                         <div class="media">
                             <div class="media-left">
                                 <span class="label" ng-class="{'label-default':l.statusInfo.id==1,'label-info':l.statusInfo.id==2,'label-success':l.statusInfo.id==3}"
-                                    ng-bind="l.statusInfo.name"></span>
+                                    role="button" ng-bind="l.statusInfo.name" ng-click="updateTermStatus(l)"></span>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading" ng-bind="l.name"></h4>
-                                <span ng-bind="l.description"></span>
+                                <div ng-hide="l.isEditing" ng-dblclick="l.isEditing=!l.isEditing">
+                                    <h4 class="media-heading" ng-bind="l.name"></h4>
+                                    <span ng-bind="l.description"></span>
+                                </div>
+                                <div ng-show="l.isEditing">
+                                    <h4 class="media-heading form-inline">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" ng-model="l.name" placeholder="事項標題">
+                                        </div>
+                                    </h4>
+                                    <div class="form-inline">
+                                        <span class="form-group">
+                                            <input type="text" class="form-control" ng-model="l.description"
+                                                placeholder="事項內容">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <button ng-hide="l.isEditing" type="button" class="close" aria-label="Close" ng-click="deleteTerm(l.id)"
+                                    title="刪除">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <button ng-show="l.isEditing" type="button" class="close" aria-label="Close" ng-click="updateTerm(l)"
+                                    title="更新">
+                                    <span aria-hidden="true">&radic;</span>
+                                </button>
                             </div>
                         </div>
                     </li>
@@ -48,6 +73,31 @@
                         <div class="media">
                             <div class="media-body">
                                 <span>無資料</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="media">
+                            <div class="media-left">
+                                <span class="label label-warning">新事項</span>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading form-inline">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="term.name" placeholder="事項標題">
+                                    </div>
+                                </h4>
+                                <div class="form-inline">
+                                    <span class="form-group">
+                                        <input type="text" class="form-control" ng-model="term.description" placeholder="事項內容">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <button type="button" class="close" aria-label="Close" ng-click="createTerm(term)"
+                                    title="新增">
+                                    <span aria-hidden="true">+</span>
+                                </button>
                             </div>
                         </div>
                     </li>
@@ -159,6 +209,40 @@
                         $scope.setupList();
                     }
 
+                    $scope.deleteTerm = (termId) => {
+                        todoList = todoList.filter(t => t.id != termId);
+                        $scope.setupList();
+                    };
+
+                    $scope.createTerm = (term) => {
+                        if (!term.name && !term.description) {
+                            return;
+                        }
+                        const newTerm = {
+                            id: [].concat(todoList).sort((a, b) => (b.id - a.id))[0].id + 1,
+                            status: 1,
+                            name: term.name,
+                            description: term.description
+                        }
+                        todoList.push(newTerm);
+                        term.name = null;
+                        term.description = null;
+                        $scope.setupList();
+                    };
+
+                    $scope.updateTerm = (term) => {
+                        let target = todoList.filter(t => t.id === term.id)[0];
+                        target.name = term.name;
+                        target.description = term.description;
+                        target.isEditing = false;
+                        $scope.setupList();
+                    }
+
+                    $scope.updateTermStatus = (term) => {
+                        let target = todoList.filter(t => t.id === term.id)[0];
+                        target.status == 3 ? target.status = 1 : target.status++;
+                        $scope.setupList();
+                    }
 
                     function filterStatus(status) {
                         return $scope.queryStatusId.length === 0 ?
