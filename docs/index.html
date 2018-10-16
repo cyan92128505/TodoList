@@ -133,6 +133,20 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.min.js"></script>
     <script>
+        var statusList = [{
+                "id": 1,
+                "name": "未完成"
+            },
+            {
+                "id": 2,
+                "name": "進行中"
+            },
+            {
+                "id": 3,
+                "name": "已完成"
+            }
+        ]
+
         var todoList = [{
                 "id": 1,
                 "status": 1,
@@ -170,6 +184,7 @@
                 "description": "處理事項六"
             }
         ];
+
         angular.module('todoApp', [])
             .config([
                 '$locationProvider',
@@ -188,26 +203,11 @@
                     $timeout,
                     $location
                 ) => {
-
-                    // const queryString = parseQuery(window.location.search);
                     const queryString = $location.search();
 
                     $scope.queryStatusId = queryString.status ? queryString.status.split(',') : [];
-                    $scope.statusList = [];
                     $scope.list = [];
-                    $scope.statusList = [{
-                            "id": 1,
-                            "name": "未完成"
-                        },
-                        {
-                            "id": 2,
-                            "name": "進行中"
-                        },
-                        {
-                            "id": 3,
-                            "name": "已完成"
-                        }
-                    ];
+                    $scope.statusList = [].concat(statusList);
 
                     $scope.statusList.forEach(s => s.isChecked = filterStatus(s.id));
                     $scope.setupList = () => {
