@@ -1,10 +1,10 @@
 ## 題目：
 
-### 嘗試利用以下 API 建立一套 Todo List
+### 請使用自身熟悉的技術框架，透過以下 API 建立一套 Todo List 單頁應用
 
-### 渲染頁面 /todolist?status=1,3，透過 API /api/todo/status, /api/todo/list
+### 頁面路由 /todolist?status=1,3，
 
-[DEMO](https://cyan92128505.github.io/TodoList/?status=1,3)
+#### API: 事項屬性 /api/todo/status
 
 GET /api/todo/status
 
@@ -17,6 +17,8 @@ GET /api/todo/status
         id: 3, name: '已完成'
     }]
 ```
+
+#### API: 事項列表 /api/todo/list
 
 POST /api/todo/list
 
@@ -36,4 +38,4 @@ POST /api/todo/list
     }]
 ```
 
-![DEMO](https://cyan92128505.github.io/TodoList/demo.png 'DEMO')
+[DEMO](https://cyan92128505.github.io/TodoList/?status=1,3) ![DEMO](https://cyan92128505.github.io/TodoList/demo.png 'DEMO')
