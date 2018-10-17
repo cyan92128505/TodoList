@@ -142,6 +142,9 @@ func demo(w http.ResponseWriter, r *http.Request) {
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./public/favicon.ico")
 }
+func appJsHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./docs/app.js")
+}
 
 func main() {
 
@@ -153,6 +156,7 @@ func main() {
 	mux.HandleFunc("/", view)
 
 	mux.HandleFunc("/favicon.ico", faviconHandler)
+	mux.HandleFunc("/app.js", appJsHandler)
 
 	mux.HandleFunc("/todolist", demo)
 	mux.HandleFunc("/demo", demo)
