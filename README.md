@@ -4,36 +4,83 @@
 
 ## 條件:
 
-1.  頁面路由可利用 URL 參數來調整搜尋結果 /todolist?status=1,3，
+1.  頁面路由可利用 URL 參數來調整搜尋結果 /todolist?status=1,3
 
-2.  事項屬性 API: GET /api/todo/status
+2.  事項狀態定義 API: GET /api/todo/status
 
 ```
-    Response: [{
-        id: 1, name: '未完成'
-    },{
-        id: 2, name: '進行中'
-    },{
-        id: 3, name: '已完成'
-    }]
+    Response: List<{
+        id: number,
+        name: string,
+    }> (事項狀態定義)
 ```
 
 3.  事項列表 API: POST /api/todo/list
 
 ```
-    Response: [{
-        id: 1, status: 1, name: '事項一', description: '處理事項一'
-    },{
-        id: 2, status: 2, name: '事項二', description: '處理事項二'
-    },{
-        id: 3, status: 2, name: '事項三', description: '處理事項三'
-    },{
-        id: 4, status: 3, name: '事項四', description: '處理事項四'
-    },{
-        id: 5, status: 1, name: '事項五', description: '處理事項五'
-    },{
-        id: 6, status: 1, name: '事項六', description: '處理事項六'
-    }]
+    Request: List<number> (狀態ID)
+    Response: List<{
+        id: number,
+        status: number,
+        name: string,
+        description: string
+    }> (事項陣列)
+```
+
+4.  新增事項 API: POST /api/todo/create
+
+```
+    Request: {
+        Name: string,
+        Description: string
+    }
+    Response: {
+        IsSuccess: boolean,
+        ReturnObject:  List<{
+            id: number,
+            status: number,
+            name: string,
+            description: string
+        }> (事項陣列)
+    }
+```
+
+4.  更新事項 API: POST /api/todo/update
+
+```
+    Request: {
+        Id: number,
+        Name: string,
+        Description: string
+    }
+    Response: {
+        IsSuccess: boolean,
+        ReturnObject: null
+    }
+```
+
+5.  刪除事項 API: POST /api/todo/delete
+
+```
+    Request: {
+        Id: number
+    }
+    Response: {
+        IsSuccess: boolean,
+        ReturnObject: null
+    }
+```
+
+6.  更新事項狀態 API: POST /api/todo/update
+
+```
+    Request: {
+        Id: number
+    }
+    Response: {
+        IsSuccess: boolean,
+        ReturnObject: null
+    }
 ```
 
 ## 畫面截圖:
