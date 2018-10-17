@@ -1,6 +1,6 @@
 ## 題目：
 
-請使用自身熟悉的技術框架，透過以下 API 建立一套 Todo List 單頁應用 [DEMO](https://cyan92128505.github.io/TodoList/?status=1,3)
+請使用自身熟悉的技術框架，搭配相對應的使用者經驗，模擬 API 建立一套 Todo List 單頁應用 [DEMO](https://cyan92128505.github.io/TodoList/?status=1,3)
 
 ## 條件:
 
