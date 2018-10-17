@@ -221,13 +221,12 @@
                         id: lastest ? lastest.id + 1 : 1,
                         status: 1,
                         name: option.Name,
-                        description: option.Description,
-                        isNew: true
+                        description: option.Description
                     }
                     todoListSource.unshift(newTerm);
                     return [200, {
                         IsSuccess: true,
-                        ReturnObject: todoListSource
+                        ReturnObject: newTerm
                     }, {}];
                 });
 
@@ -306,11 +305,10 @@
                         }).then(arg => {
                             term.name = null;
                             term.description = null;
-                            $scope.list = [].concat(arg.data.ReturnObject).map(term => {
-                                term.statusInfo = $scope.statusList.filter(s => s.id ===
-                                    term.status)[0];
-                                return term;
-                            });
+                            arg.data.ReturnObject.statusInfo = $scope.statusList.filter(s => s.id ===
+                                arg.data.ReturnObject.status)[0];
+                            arg.data.ReturnObject.isNew = true;
+                            $scope.list.unshift(arg.data.ReturnObject);
                         });
                     };
 

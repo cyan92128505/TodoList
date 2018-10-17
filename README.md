@@ -36,12 +36,12 @@
     }
     Response: {
         IsSuccess: boolean,
-        ReturnObject:  List<{
+        ReturnObject:  {
             id: number,
             status: number,
             name: string,
             description: string
-        }> (事項陣列)
+        }
     }
 ```
 
