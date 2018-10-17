@@ -139,6 +139,10 @@ func demo(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, nil)
 }
 
+func faviconHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./public/favicon.ico")
+}
+
 func main() {
 
 	// handle static assets
@@ -148,7 +152,9 @@ func main() {
 
 	mux.HandleFunc("/", view)
 
-	mux.HandleFunc("/todolist", view)
+	mux.HandleFunc("/favicon.ico", faviconHandler)
+
+	mux.HandleFunc("/todolist", demo)
 	mux.HandleFunc("/demo", demo)
 
 	mux.HandleFunc("/api/todo/list", list)
